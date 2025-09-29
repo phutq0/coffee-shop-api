@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="004-create-orders-table" author="coffee-shop">
+        <createTable tableName="orders">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shop_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subtotal" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tax_amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="special_instructions" type="text"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+            <column name="estimated_ready_time" type="timestamp"/>
+            <column name="completed_at" type="timestamp"/>
+            <column name="cancellation_reason" type="text"/>
+        </createTable>
+
+        <createTable tableName="order_items">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="menu_item_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unit_price" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_price" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="special_instructions" type="text"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="orders"
+                baseColumnNames="customer_id"
+                constraintName="fk_orders_customer"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="orders"
+                baseColumnNames="shop_id"
+                constraintName="fk_orders_shop"
+                referencedTableName="shops"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="order_items"
+                baseColumnNames="order_id"
+                constraintName="fk_order_items_order"
+                referencedTableName="orders"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="order_items"
+                baseColumnNames="menu_item_id"
+                constraintName="fk_order_items_menu_item"
+                referencedTableName="menu_items"
+                referencedColumnNames="id"/>
+
+        <createIndex tableName="orders" indexName="idx_order_customer">
+            <column name="customer_id"/>
+        </createIndex>
+
+        <createIndex tableName="orders" indexName="idx_order_shop">
+            <column name="shop_id"/>
+        </createIndex>
+
+        <createIndex tableName="orders" indexName="idx_order_status">
+            <column name="status"/>
+        </createIndex>
+
+        <createIndex tableName="orders" indexName="idx_order_created">
+            <column name="created_at"/>
+        </createIndex>
+
+        <createIndex tableName="order_items" indexName="idx_order_item_order">
+            <column name="order_id"/>
+        </createIndex>
+
+        <createIndex tableName="order_items" indexName="idx_order_item_menu">
+            <column name="menu_item_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

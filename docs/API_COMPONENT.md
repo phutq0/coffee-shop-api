@@ -1,0 +1,1 @@
+![API Component](./images/api-component.png)

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="007-insert-sample-data" author="coffee-shop">
+        <!-- Insert sample users -->
+        <insert tableName="users">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440001"/>
+            <column name="mobile_number" value="+1234567890"/>
+            <column name="password" value="$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDi"/>
+            <column name="name" value="John Doe"/>
+            <column name="email" value="john.doe@example.com"/>
+            <column name="role" value="CUSTOMER"/>
+            <column name="loyalty_score" value="100"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440002"/>
+            <column name="mobile_number" value="+1234567891"/>
+            <column name="password" value="$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDi"/>
+            <column name="name" value="Jane Smith"/>
+            <column name="email" value="jane.smith@example.com"/>
+            <column name="role" value="SHOP_OWNER"/>
+            <column name="loyalty_score" value="0"/>
+        </insert>
+
+        <!-- Insert sample shop -->
+        <insert tableName="shops">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="name" value="Coffee Corner"/>
+            <column name="description" value="Best coffee in town with a cozy atmosphere"/>
+            <column name="owner_id" value="550e8400-e29b-41d4-a716-446655440002"/>
+            <column name="latitude" value="40.7128"/>
+            <column name="longitude" value="-74.0060"/>
+            <column name="address" value="123 Main St, New York, NY 10001"/>
+            <column name="contact_details" value='{"phone": "+1-555-0123", "email": "info@coffeecorner.com", "website": "https://coffeecorner.com"}'/>
+            <column name="queue_configuration" value='{"maxQueueSize": 50, "averageServiceTimeMinutes": 5, "allowOnlineOrders": true, "allowWalkInOrders": true}'/>
+            <column name="is_active" value="true"/>
+        </insert>
+
+        <!-- Insert sample menu items -->
+        <insert tableName="menu_items">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440004"/>
+            <column name="name" value="Espresso"/>
+            <column name="description" value="Rich and bold espresso shot"/>
+            <column name="price" value="2.50"/>
+            <column name="category" value="Coffee"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="is_available" value="true"/>
+            <column name="preparation_time_minutes" value="3"/>
+            <column name="calories" value="5"/>
+            <column name="sort_order" value="1"/>
+        </insert>
+
+        <insert tableName="menu_items">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440005"/>
+            <column name="name" value="Cappuccino"/>
+            <column name="description" value="Espresso with steamed milk and foam"/>
+            <column name="price" value="3.50"/>
+            <column name="category" value="Coffee"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="is_available" value="true"/>
+            <column name="preparation_time_minutes" value="5"/>
+            <column name="calories" value="80"/>
+            <column name="sort_order" value="2"/>
+        </insert>
+
+        <insert tableName="menu_items">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440006"/>
+            <column name="name" value="Croissant"/>
+            <column name="description" value="Buttery and flaky French pastry"/>
+            <column name="price" value="2.75"/>
+            <column name="category" value="Pastry"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="is_available" value="true"/>
+            <column name="preparation_time_minutes" value="2"/>
+            <column name="calories" value="231"/>
+            <column name="sort_order" value="3"/>
+        </insert>
+
+        <!-- Insert operating hours for Monday to Friday -->
+        <insert tableName="operating_hours">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440007"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="day_of_week" value="MONDAY"/>
+            <column name="opening_time" value="06:00:00"/>
+            <column name="closing_time" value="18:00:00"/>
+            <column name="is_closed" value="false"/>
+        </insert>
+
+        <insert tableName="operating_hours">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440008"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="day_of_week" value="TUESDAY"/>
+            <column name="opening_time" value="06:00:00"/>
+            <column name="closing_time" value="18:00:00"/>
+            <column name="is_closed" value="false"/>
+        </insert>
+
+        <insert tableName="operating_hours">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440009"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="day_of_week" value="WEDNESDAY"/>
+            <column name="opening_time" value="06:00:00"/>
+            <column name="closing_time" value="18:00:00"/>
+            <column name="is_closed" value="false"/>
+        </insert>
+
+        <insert tableName="operating_hours">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440010"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="day_of_week" value="THURSDAY"/>
+            <column name="opening_time" value="06:00:00"/>
+            <column name="closing_time" value="18:00:00"/>
+            <column name="is_closed" value="false"/>
+        </insert>
+
+        <insert tableName="operating_hours">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440011"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="day_of_week" value="FRIDAY"/>
+            <column name="opening_time" value="06:00:00"/>
+            <column name="closing_time" value="18:00:00"/>
+            <column name="is_closed" value="false"/>
+        </insert>
+
+        <insert tableName="operating_hours">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440012"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="day_of_week" value="SATURDAY"/>
+            <column name="opening_time" value="07:00:00"/>
+            <column name="closing_time" value="16:00:00"/>
+            <column name="is_closed" value="false"/>
+        </insert>
+
+        <insert tableName="operating_hours">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440013"/>
+            <column name="shop_id" value="550e8400-e29b-41d4-a716-446655440003"/>
+            <column name="day_of_week" value="SUNDAY"/>
+            <column name="opening_time" value="08:00:00"/>
+            <column name="closing_time" value="15:00:00"/>
+            <column name="is_closed" value="false"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
+

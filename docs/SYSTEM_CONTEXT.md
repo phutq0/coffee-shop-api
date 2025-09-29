@@ -1,0 +1,1 @@
+![System Context](./images/system-context.png)

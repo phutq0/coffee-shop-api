@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="002-create-shops-table" author="coffee-shop">
+        <createTable tableName="shops">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="owner_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_details" type="jsonb"/>
+            <column name="queue_configuration" type="jsonb"/>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="shops"
+                baseColumnNames="owner_id"
+                constraintName="fk_shops_owner"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+
+        <createIndex tableName="shops" indexName="idx_shop_location">
+            <column name="latitude"/>
+            <column name="longitude"/>
+        </createIndex>
+
+        <createIndex tableName="shops" indexName="idx_shop_owner">
+            <column name="owner_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="005-create-queue-entries-table" author="coffee-shop">
+        <createTable tableName="queue_entries">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="shop_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="joined_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="served_at" type="timestamp"/>
+            <column name="left_at" type="timestamp"/>
+            <column name="notes" type="text"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="queue_entries"
+                baseColumnNames="shop_id"
+                constraintName="fk_queue_entries_shop"
+                referencedTableName="shops"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="queue_entries"
+                baseColumnNames="customer_id"
+                constraintName="fk_queue_entries_customer"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="queue_entries"
+                baseColumnNames="order_id"
+                constraintName="fk_queue_entries_order"
+                referencedTableName="orders"
+                referencedColumnNames="id"/>
+
+        <createIndex tableName="queue_entries" indexName="idx_queue_shop">
+            <column name="shop_id"/>
+        </createIndex>
+
+        <createIndex tableName="queue_entries" indexName="idx_queue_customer">
+            <column name="customer_id"/>
+        </createIndex>
+
+        <createIndex tableName="queue_entries" indexName="idx_queue_position">
+            <column name="shop_id"/>
+            <column name="position"/>
+        </createIndex>
+
+        <createIndex tableName="queue_entries" indexName="idx_queue_status">
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

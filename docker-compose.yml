@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgis/postgis:15-3.3-alpine
+    container_name: coffee-shop-postgres
+    environment:
+      POSTGRES_DB: coffeeshop
+      POSTGRES_USER: coffeeshop
+      POSTGRES_PASSWORD: coffeeshop123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - coffee-shop-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U coffeeshop -d coffeeshop"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  coffee-shop-api:
+    build: .
+    container_name: coffee-shop-api
+    environment:
+      DB_HOST: postgres
+      DB_USERNAME: coffeeshop
+      DB_PASSWORD: coffeeshop123
+      JWT_SECRET: mySecretKey123456789012345678901234567890123456789012345678901234567890
+      JWT_EXPIRATION: 86400000
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - coffee-shop-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:
+
+networks:
+  coffee-shop-network:
+    driver: bridge
