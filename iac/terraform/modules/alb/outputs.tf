@@ -11,9 +11,9 @@ output "target_group_arn" {
 }
 
 output "http_listener_arn" {
-  value = aws_lb_listener.http.arn
+  value = length(aws_lb_listener.http_forward) > 0 ? aws_lb_listener.http_forward[0].arn : null
 }
 
 output "https_listener_arn" {
-  value = try(aws_lb_listener.https[0].arn, null)
+  value = length(aws_lb_listener.https) > 0 ? aws_lb_listener.https[0].arn : null
 }

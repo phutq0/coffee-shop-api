@@ -33,8 +33,11 @@ variable "memory" {
   default = 1024
 }
 variable "task_env" {
-  type    = map(string)
-  default = {}
+  type = map(string)
+  default = {
+    "DB_USERNAME"    = "coffeeshop"
+    "JWT_EXPIRATION" = "86400000"
+  }
 }
 variable "task_secrets" {
   description = "Map of ENV_NAME => Secrets Manager ARN"

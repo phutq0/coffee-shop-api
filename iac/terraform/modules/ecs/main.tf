@@ -1,5 +1,3 @@
-
-
 resource "aws_ecs_cluster" "this" {
   name = var.cluster_name
   setting {
@@ -40,11 +38,12 @@ resource "aws_ecs_task_definition" "this" {
   cpu                      = tostring(var.cpu)
   memory                   = tostring(var.memory)
   execution_role_arn       = aws_iam_role.task_exec.arn
+  task_role_arn            = aws_iam_role.task_exec.arn
 
   container_definitions = jsonencode([
     {
       name         = "app"
-      image        = var.image
+      image        = "444925161889.dkr.ecr.us-east-1.amazonaws.com/${var.name}"
       essential    = true
       portMappings = [{ containerPort = var.container_port, protocol = "tcp" }]
       environment  = local.container_env

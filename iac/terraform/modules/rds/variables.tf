@@ -45,7 +45,7 @@ variable "password" {
 variable "engine_version" {
   description = "PostgreSQL engine version"
   type        = string
-  default     = "15.5"
+  default     = "15"
 }
 
 variable "instance_class" {
@@ -93,7 +93,7 @@ variable "performance_insights" {
 variable "monitoring_interval" {
   description = "Enhanced monitoring interval (seconds)"
   type        = number
-  default     = 60
+  default     = 0
 }
 
 variable "deletion_protection" {

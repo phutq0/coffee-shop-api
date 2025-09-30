@@ -1,5 +1,3 @@
-
-
 resource "aws_db_subnet_group" "this" {
   name       = "${var.name}-db-subnets"
   subnet_ids = var.subnet_ids
@@ -47,6 +45,7 @@ resource "random_password" "db" {
   count   = var.password == null ? 1 : 0
   length  = 20
   special = true
+  override_special = "!#$%^&*()-_=+[]{}<>:,.?"
 }
 
 locals {

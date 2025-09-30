@@ -28,10 +28,31 @@ resource "aws_s3_bucket_lifecycle_configuration" "logs" {
   rule {
     id     = "expire"
     status = "Enabled"
+    filter {}
     expiration {
       days = var.logs.lifecycle_days
     }
   }
+}
+
+resource "aws_s3_bucket_policy" "alb_logs" {
+  count  = var.logs.enabled && var.logs.create_bucket ? 1 : 0
+  bucket = aws_s3_bucket.logs[0].id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid      = "AWSLoadBalancerLogsPolicy",
+        Effect   = "Allow",
+        Principal = {
+          Service = "logdelivery.elb.amazonaws.com"
+        },
+        Action   = "s3:PutObject",
+        Resource = "${aws_s3_bucket.logs[0].arn}/*"
+      }
+    ]
+  })
 }
 
 # ALB SG (optional external)

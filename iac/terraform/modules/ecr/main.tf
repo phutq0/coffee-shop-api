@@ -23,7 +23,7 @@ resource "aws_ecr_lifecycle_policy" "this" {
         description  = "Keep last N tagged images",
         selection = {
           tagStatus     = "tagged",
-          tagPrefixList = [""],
+          tagPrefixList = ["latest-"],
           countType     = "imageCountMoreThan",
           countNumber   = var.lifecycle_keep_last
         },

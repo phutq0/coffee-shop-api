@@ -109,11 +109,11 @@ variable "logs" {
     lifecycle_days = number
   })
   default = {
-    enabled        = true
-    create_bucket  = true
+    enabled        = false
+    create_bucket  = false
     bucket_name    = null
     prefix         = "alb"
-    lifecycle_days = 90
+    lifecycle_days = 30
   }
 }
 

@@ -1,5 +1,3 @@
-
-
 # Security Groups
 resource "aws_security_group" "alb" {
   name        = "${var.name}-alb-sg"

@@ -1,37 +1,49 @@
 variable "name" {
-  type = string
+  type    = string
+  default = "coffee-shop"
 }
 
 variable "region" {
-  type = string
+  type    = string
+  default = "us-east-1"
 }
 
 variable "tags" {
   type = map(string)
+  default = {
+    "environment" = "dev"
+    "managed-by"  = "terraform"
+  }
 }
 
 variable "vpc_cidr" {
-  type = string
+  type    = string
+  default = "10.0.0.0/16"
 }
 
 variable "public_subnet_cidrs" {
-  type = list(string)
+  type    = list(string)
+  default = ["10.0.0.0/24", "10.0.1.0/24"]
 }
 
 variable "private_subnet_cidrs" {
-  type = list(string)
+  type    = list(string)
+  default = ["10.0.2.0/24", "10.0.3.0/24"]
 }
 
 variable "db_subnet_cidrs" {
-  type = list(string)
+  type    = list(string)
+  default = ["10.0.4.0/24", "10.0.5.0/24"]
 }
 
 variable "enable_nat_per_az" {
-  type = bool
+  type    = bool
+  default = false
 }
 
 variable "enable_vpc_flow_logs" {
-  type = bool
+  type    = bool
+  default = false
 }
 
 variable "alb_create_https" {
@@ -50,7 +62,8 @@ variable "alb_certificate_arn" {
 }
 
 variable "app_image" {
-  type = string
+  type    = string
+  default = "coffee-shop-api"
 }
 
 variable "app_port" {

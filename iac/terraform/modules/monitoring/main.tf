@@ -1,22 +1,3 @@
-
-
-variable "name" { type = string }
-
-variable "tags" {
-  type    = map(string)
-  default = {}
-}
-variable "notification_emails" { type = list(string) }
-variable "ecs_cluster_name" { type = string }
-variable "alb_arn_suffix" { type = string }
-variable "tg_arn_suffix" { type = string }
-variable "rds_identifier" { type = string }
-variable "app_log_group_names" { type = list(string) }
-variable "error_filter_pattern" { type = string }
-variable "alarm_thresholds" { type = map(number) }
-variable "monthly_cost_threshold" { type = number }
-variable "enable_cost_alarms" { type = bool }
-
 # SNS topics
 resource "aws_sns_topic" "critical" {
   name = "${var.name}-critical"

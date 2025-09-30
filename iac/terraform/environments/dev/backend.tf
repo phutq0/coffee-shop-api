@@ -1,9 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = TF_STATE_BUCKET
+    bucket         = "coffee-shop-terraform-state-1"
     key            = "coffee-shop/dev/terraform.tfstate"
-    region         = AWS_REGION
-    dynamodb_table = TF_STATE_LOCK_TABLE
+    region         = "us-east-1"
     encrypt        = true
   }
 }

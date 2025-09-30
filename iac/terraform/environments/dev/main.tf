@@ -8,11 +8,6 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = var.region
-  default_tags { tags = var.tags }
-}
-
 module "networking" {
   source = "../../modules/networking"
 
@@ -106,34 +101,34 @@ module "ecs" {
   depends_on = [module.networking, module.security, module.alb, module.ecr]
 }
 
-module "monitoring" {
-  source = "../../modules/monitoring"
+# module "monitoring" {
+#   source = "../../modules/monitoring"
 
-  name                 = var.name
-  region               = var.region
-  tags                 = var.tags
-  notification_emails  = var.notification_emails
-  ecs_cluster_name     = module.ecs.cluster_name
-  alb_arn_suffix       = trimprefix(module.alb.alb_arn, "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:")
-  tg_arn_suffix        = trimprefix(module.alb.target_group_arn, "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:")
-  rds_identifier       = module.rds.db_identifier
-  error_filter_pattern = "?ERROR ?Error ?Exception"
-  app_log_group_names  = [module.ecs.log_group_name]
+#   name                 = var.name
+#   region               = var.region
+#   tags                 = var.tags
+#   notification_emails  = var.notification_emails
+#   ecs_cluster_name     = module.ecs.cluster_name
+#   alb_arn_suffix       = trimprefix(module.alb.alb_arn, "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:")
+#   tg_arn_suffix        = trimprefix(module.alb.target_group_arn, "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:")
+#   rds_identifier       = module.rds.db_identifier
+#   error_filter_pattern = "?ERROR ?Error ?Exception"
+#   app_log_group_names  = [module.ecs.log_group_name]
 
-  enable_cost_alarms   = false
-  monthly_cost_threshold = 50
-  alarm_thresholds = {
-    ecs_cpu_high         = 80
-    ecs_memory_high      = 80
-    alb_5xx_high         = 10
-    alb_target_rt_high   = 1
-    rds_cpu_high         = 80
-    rds_connections_high = 100
-    rds_free_storage_low = 2000000000
-    log_error_rate_high  = 5
-  }
+#   enable_cost_alarms   = false
+#   monthly_cost_threshold = 50
+#   alarm_thresholds = {
+#     ecs_cpu_high         = 80
+#     ecs_memory_high      = 80
+#     alb_5xx_high         = 10
+#     alb_target_rt_high   = 1
+#     rds_cpu_high         = 80
+#     rds_connections_high = 100
+#     rds_free_storage_low = 2000000000
+#     log_error_rate_high  = 5
+#   }
 
-  depends_on = [module.networking, module.security, module.alb, module.ecr, module.rds, module.ecs]
-}
+#   depends_on = [module.networking, module.security, module.alb, module.ecr, module.rds, module.ecs]
+# }
 
 data "aws_caller_identity" "current" {}
