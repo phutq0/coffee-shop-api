@@ -24,9 +24,14 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: Get image tag
+        id: image-tag
+        shell: bash
+        run: echo "IMAGE_TAG=$(echo ${{ github.sha }} | cut -c1-8)" >> $GITHUB_OUTPUT
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: 444925161889.dkr.ecr.us-east-1.amazonaws.com/coffee-shop-api:${{ github.sha[:8] }}
+          tags: 444925161889.dkr.ecr.us-east-1.amazonaws.com/coffee-shop-api:${{ steps.image-tag.outputs.IMAGE_TAG }}
