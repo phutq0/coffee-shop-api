@@ -1,11 +1,4 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.0"
-    }
-  }
-}
+
 
 # Access Logs bucket (optional create)
 resource "aws_s3_bucket" "logs" {

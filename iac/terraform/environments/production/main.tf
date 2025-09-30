@@ -38,6 +38,8 @@ module "security" {
 
   alb_ingress_cidrs = ["0.0.0.0/0"]
   app_port          = var.app_port
+
+  depends_on = [module.networking]
 }
 
 module "alb" {
@@ -52,6 +54,8 @@ module "alb" {
   create_https_listener = var.alb_create_https
   certificate_arn       = var.alb_certificate_arn
   enable_http_redirect  = var.alb_enable_http_redirect
+
+  depends_on = [module.networking, module.security]
 }
 
 module "ecr" {
@@ -73,6 +77,8 @@ module "rds" {
   instance_class = var.db_instance_class
   multi_az       = var.db_multi_az
   ingress_sg_ids = [module.security.sg_ecs_id]
+
+  depends_on = [module.networking, module.security]
 }
 
 module "ecs" {
@@ -91,6 +97,8 @@ module "ecs" {
   memory             = var.ecs_memory
   desired_count      = var.desired_count
   target_group_arn   = module.alb.target_group_arn
+
+  depends_on = [module.networking, module.security, module.alb, module.ecr]
 }
 
 module "monitoring" {
@@ -119,6 +127,8 @@ module "monitoring" {
     rds_free_storage_low = 2000000000
     log_error_rate_high  = 5
   }
+
+  depends_on = [module.networking, module.security, module.alb, module.ecr, module.rds, module.ecs]
 }
 
 data "aws_caller_identity" "current" {}
