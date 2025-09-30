@@ -34,4 +34,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: 444925161889.dkr.ecr.us-east-1.amazonaws.com/coffee-shop-api:${{ steps.image-tag.outputs.IMAGE_TAG }}
+          tags: |
+            444925161889.dkr.ecr.us-east-1.amazonaws.com/coffee-shop:${{ steps.image-tag.outputs.IMAGE_TAG }}
+            444925161889.dkr.ecr.us-east-1.amazonaws.com/coffee-shop:latest
